@@ -4147,9 +4147,12 @@ class KernelInstantiation {
   // Private constructor used by deserialize()
   KernelInstantiation(std::string const& func_name, std::string const& ptx,
                       std::vector<std::string> const& link_files,
-                      std::vector<std::string> const& link_paths)
+                      std::vector<std::string> const& link_paths,
+                      unsigned int nopts = 0,
+                      CUjit_option* opts = 0, void** optvals = 0)
       : _cuda_kernel(new detail::CUDAKernel(func_name.c_str(), ptx.c_str(),
-                                            link_files, link_paths)) {}
+                                            link_files, link_paths,
+                                            nopts, opts, optvals)) {}
 
  public:
   KernelInstantiation(Kernel const& kernel,
@@ -4195,14 +4198,17 @@ class KernelInstantiation {
    * \see serialize
    */
   static KernelInstantiation deserialize(
-      std::string const& serialized_kernel_inst) {
+      std::string const& serialized_kernel_inst,
+      unsigned int nopts = 0,
+      CUjit_option* opts = 0, void** optvals = 0) {
     std::string func_name, ptx;
     std::vector<std::string> link_files, link_paths;
     if (!serialization::deserialize(serialized_kernel_inst, &func_name, &ptx,
                                     &link_files, &link_paths)) {
       throw std::runtime_error("Failed to deserialize kernel instantiation");
     }
-    return KernelInstantiation(func_name, ptx, link_files, link_paths);
+    return KernelInstantiation(func_name, ptx, link_files, link_paths,
+                               nopts, opts, optvals);
   }
 
   /*! Save the program.
