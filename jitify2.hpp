@@ -2360,7 +2360,7 @@ inline bool endswith(StringRef str, StringRef suffix) {
 
 inline bool is_true_value(std::string str) {
   std::transform(str.begin(), str.end(), str.begin(),
-                 [](unsigned char c) { return std::tolower(c); });
+                 [](unsigned char c) { return static_cast<unsigned char>(std::tolower(c)); });
   return !(str == "false" || str == "off" || str == "no" || str == "0");
 }
 
