@@ -3182,7 +3182,7 @@ inline int parse_arch_flag(const OptionsVec& options, bool* is_virtual,
 // capability such as 61 for sm_61.
 inline int get_current_device_compute_capability(std::string* error = nullptr) {
   CUdevice device;
-  int cc_major, cc_minor;
+  int cc_major = 0, cc_minor = 0;
   CUresult ret;
   if (!cuda()) {
     if (error) *error = cuda().error();
