@@ -2347,12 +2347,12 @@ inline std::string path_base(const std::string& p) {
   }
 }
 
-inline bool path_is_absolute(StringRef p) {
+inline bool path_is_absolute(const StringRef &p) {
 #if defined _WIN32 || defined _WIN64
   return (p.size() >= 1 && (p[0] == '\\' || p[0] == '/')) ||
          (p.size() >= 3 && p[1] == ':' && (p[2] == '\\' || p[2] == '/'));
 #else
-  return !p.empty() && p.front() == '/';
+  return p.size() >= 1 && p[0] == '/';
 #endif
 }
 
