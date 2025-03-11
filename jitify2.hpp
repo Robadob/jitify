@@ -2347,7 +2347,7 @@ inline std::string path_base(const std::string& p) {
   }
 }
 
-inline bool path_is_absolute(const StringRef &p) {
+inline bool path_is_absolute(StringRef p) {
 #if defined _WIN32 || defined _WIN64
   return (p.size() >= 1 && (p[0] == '\\' || p[0] == '/')) ||
          (p.size() >= 3 && p[1] == ':' && (p[2] == '\\' || p[2] == '/'));
@@ -5759,7 +5759,7 @@ inline void extract_include_paths(OptionsVec* options,
   for (int i = (int)idxs.size() - 1; i >= 0; --i) {
     const int idx = idxs[i];
     std::string include_path = (*options)[idx].value();
-    include_path = expand_include_path(std::move(include_path));
+    include_path = expand_include_path(include_path);
     include_paths->push_back(std::move(include_path));
     options->erase(idx);
   }
