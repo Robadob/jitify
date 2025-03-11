@@ -2352,7 +2352,7 @@ inline bool path_is_absolute(StringRef p) {
   return (p.size() >= 1 && (p[0] == '\\' || p[0] == '/')) ||
          (p.size() >= 3 && p[1] == ':' && (p[2] == '\\' || p[2] == '/'));
 #else
-  return p.size() >= 1 && p[0] == '/';
+  return !p.empty() && p.front() == '/';
 #endif
 }
 
